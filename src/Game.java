@@ -18,12 +18,12 @@ public class Game {
     private boolean horizontalCheck(int[] row){
         int counter = 0;
         for (int i : row){
-            if (row[i]==1){
-                counter += row[i];
+            if (i == 1){
+                counter += i;
             } else {
                 counter = 0;
             }
-            if (counter>=5){
+            if (counter >= 5){
                 return true;
             }
         }
@@ -31,8 +31,8 @@ public class Game {
     }
 
     private boolean verticalCheck(int[][] arr, int col){
-        int[] vertArr = new int [arr.length];
-        for (int row = 0; row < arr.length; ++row){
+        int[] vertArr = new int [NUM_ROW];
+        for (int row = 0; row < NUM_ROW; ++row){
             vertArr[row] = arr[row][col];
         }
         return horizontalCheck(vertArr);
@@ -121,6 +121,12 @@ public class Game {
             System.out.println("You win!");
         } else {
             System.out.println("Continue...");
+        }
+        for (int[] rowArr : board){
+            for (int i : rowArr){
+                System.out.print(i + " ");
+            }
+            System.out.println("");
         }
     }
 }
