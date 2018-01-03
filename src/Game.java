@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 /**
  * Created by IntelliJ IDEA.
  * User: Zonggen
@@ -9,11 +7,22 @@ import java.util.Scanner;
 public class Game {
     private static final int NUM_ROW = 15;
     private static final int NUM_COLUMN = 15;
+    private Board boardObj;
     private int[][] board;
+    private boolean isFirst;
 
     public Game() {
-        Board boardObj = new Board(NUM_ROW, NUM_COLUMN);
+        isFirst = true;
+        boardObj = new Board(NUM_ROW, NUM_COLUMN);
         this.board = boardObj.getBoard();
+    }
+
+    public static int getNumRow() {
+        return NUM_ROW;
+    }
+
+    public static int getNumColumn() {
+        return NUM_COLUMN;
     }
 
     private boolean horizontalCheck(int[] row){
@@ -102,32 +111,56 @@ public class Game {
         return diagonalCheck(board) || reverseDiagonalCheck(board);
     }
 
-    public void play (){
-        System.out.println("Please enter the coordinate: (row, col)");
-        Scanner sc = new Scanner(System.in);
-        int counter = 0;
-        int row = -1;
-        int col = -1;
-        while (sc.hasNextInt()){
-            if (counter == 0){
-                row = sc.nextInt();
-            } else if (counter == 1){
-                col = sc.nextInt();
+    public boolean isFull(){
+        for (int[] arr : board){
+            for (int value : arr){
+                if (value == 0){
+                    return false;
+                }
             }
-            counter++;
-            if (counter >= 2) break;
         }
-        board[row][col] = 1;
+        return true;
+    }
+
+    public void play (){
+        Bot bot = new Bot();
+        Player player = new Player();
+        bot.setBoard(boardObj);
+        player.setBoard(boardObj);
+        boolean playerFirst = false;
+
+        if (isFirst){
+            System.out.println("Flipping a coin...");
+            if (Math.random() < 0.5){
+                System.out.println("Heads");
+                System.out.println("You go first...");
+                playerFirst = true;
+            } else {
+                System.out.println("Tails");
+                System.out.println("Allen goes first...");
+            }
+            isFirst = false;
+        }
+
+        while (!ifWin() && !isFull()){
+            if (playerFirst){
+                player.play();
+            } else {
+                bot.play();
+            }
+            for (int[] rowArr : board){
+                for (int i : rowArr){
+                    System.out.print(i + " ");
+                }
+                System.out.println("");
+            }
+            playerFirst = !playerFirst;
+        }
+
         if (ifWin()){
             System.out.println("You win!");
-        } else {
-            System.out.println("Continue...");
-        }
-        for (int[] rowArr : board){
-            for (int i : rowArr){
-                System.out.print(i + " ");
-            }
-            System.out.println("");
+        } else if (isFull()){
+            System.out.println("Board is full...");
         }
     }
 }
