@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Zonggen
@@ -28,7 +30,7 @@ public class Game {
         return false;
     }
 
-    private boolean verticleCheck(int[][] arr, int col){
+    private boolean verticalCheck(int[][] arr, int col){
         int[] vertArr = new int [arr.length];
         for (int row = 0; row < arr.length; ++row){
             vertArr[row] = arr[row][col];
@@ -60,11 +62,64 @@ public class Game {
             }
         }
         // iii). Diagonals in lower triangle of the matrix
-        for (){
-            
+        for (int row = 1, col = 0; col < NUM_ROW; ++row){
+            for (int dia_row = row, dia_col = 0; dia_row < NUM_ROW; ++dia_row, ++dia_col){
+                diagArr [dia_col] = arr[dia_row][dia_col];
+            }
+            if (horizontalCheck(diagArr)){
+                return true;
+            } else {
+                diagArr = new int [min];
+            }
         }
+        return false;
     }
 
+    // Check diagonal of the other direction
+    private boolean reverseDiagonalCheck (int[][] arr){
+        int[][] reverse = new int[NUM_ROW][NUM_COLUMN];
+        for (int row = 0; row < NUM_ROW; ++ row){
+            for (int col = 0; col < NUM_COLUMN; ++col){
+                reverse[row][col] = arr[row][NUM_COLUMN-1-col];
+            }
+        }
+        return diagonalCheck(reverse);
+    }
+
+
     public boolean ifWin(){
+        for (int[] row : board){
+            if (horizontalCheck(row)){
+                return true;
+            }
+        }
+        for (int col = 0; col < NUM_COLUMN; ++col){
+            if (verticalCheck(board, col)){
+                return true;
+            }
+        }
+        return diagonalCheck(board) || reverseDiagonalCheck(board);
+    }
+
+    public void play (){
+        System.out.println("Please enter the coordinate: (row, col)");
+        Scanner sc = new Scanner(System.in);
+        int counter = 0;
+        int row = -1;
+        int col = -1;
+        while (sc.hasNextInt() && counter <= 2){
+            if (counter == 0){
+                row = sc.nextInt();
+            } else {
+                col = sc.nextInt();
+            }
+            counter++;
+        }
+        board[row][col] = 1;
+        if (ifWin()){
+            System.out.println("You win!");
+        } else {
+            System.out.println("Continue...");
+        }
     }
 }
