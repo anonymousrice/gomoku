@@ -12,7 +12,8 @@ public class Game {
     private int[][] board;
 
     public Game() {
-        this.board = new int [NUM_ROW][NUM_COLUMN];
+        Board boardObj = new Board(NUM_ROW, NUM_COLUMN);
+        this.board = boardObj.getBoard();
     }
 
     private boolean horizontalCheck(int[] row){
