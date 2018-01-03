@@ -62,7 +62,7 @@ public class Game {
             }
         }
         // iii). Diagonals in lower triangle of the matrix
-        for (int row = 1, col = 0; col < NUM_ROW; ++row){
+        for (int row = 1, col = 0; row < NUM_ROW; ++row){
             for (int dia_row = row, dia_col = 0; dia_row < NUM_ROW; ++dia_row, ++dia_col){
                 diagArr [dia_col] = arr[dia_row][dia_col];
             }
@@ -107,13 +107,14 @@ public class Game {
         int counter = 0;
         int row = -1;
         int col = -1;
-        while (sc.hasNextInt() && counter <= 2){
+        while (sc.hasNextInt()){
             if (counter == 0){
                 row = sc.nextInt();
-            } else {
+            } else if (counter == 1){
                 col = sc.nextInt();
             }
             counter++;
+            if (counter >= 2) break;
         }
         board[row][col] = 1;
         if (ifWin()){
