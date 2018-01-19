@@ -5,7 +5,7 @@
  * Time: 12:51 PM
  */
 public class Bot implements GameStrategy {
-    private static final String MODE = "PRO";
+    private static final String MODE = "FREESTYLE";
     private static final int MID_ROW = Game.getNumRow()/2;
     private static final int MID_COL = Game.getNumColumn()/2;
     private Board board;

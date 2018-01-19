@@ -137,7 +137,7 @@ public class Game {
                 playerFirst = true;
             } else {
                 System.out.println("Tails");
-                System.out.println("Allen goes first...");
+                System.out.println("Computer goes first...");
             }
             isFirst = false;
         }
