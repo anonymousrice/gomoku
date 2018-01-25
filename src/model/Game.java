@@ -1,15 +1,16 @@
 package model;
 
-
+/**
+ * Record the black stone as 1 on board,
+ * and -1 for the white stone
+ */
 public class Game {
     private static final int NUM_ROW = 15;
     private static final int NUM_COLUMN = 15;
     private Board boardObj;
     private int[][] board;
-    private boolean isFirst;
 
     public Game() {
-        isFirst = true;
         boardObj = new Board(NUM_ROW, NUM_COLUMN);
         this.board = boardObj.getBoard();
     }
@@ -25,12 +26,12 @@ public class Game {
     private boolean horizontalCheck(int[] row){
         int counter = 0;
         for (int i : row){
-            if (i == 1){
+            if (i != 0){
                 counter += i;
             } else {
                 counter = 0;
             }
-            if (counter >= 5){
+            if (counter <= -4 || counter >= 4){
                 return true;
             }
         }
@@ -120,24 +121,19 @@ public class Game {
     }
 
     public void play (){
-        Bot bot = new Bot();
-        Player player = new Player();
-        bot.setBoard(boardObj);
-        player.setBoard(boardObj);
         boolean playerFirst = false;
-
-        if (isFirst){
-            System.out.println("Flipping a coin...");
-            if (Math.random() < 0.5){
-                System.out.println("Heads");
-                System.out.println("You go first...");
-                playerFirst = true;
-            } else {
-                System.out.println("Tails");
-                System.out.println("Computer goes first...");
-            }
-            isFirst = false;
+        System.out.println("Flipping a coin...");
+        if (Math.random() < 0.5){
+            System.out.println("Heads");
+            System.out.println("You go first...");
+            playerFirst = true;
+        } else {
+            System.out.println("Tails");
+            System.out.println("Computer goes first...");
         }
+
+        Bot bot = new Bot((playerFirst?-1:1),boardObj);
+        Player player = new Player((playerFirst?1:-1),boardObj);
 
         while (!ifWin() && !isFull()){
             if (playerFirst){
@@ -155,8 +151,10 @@ public class Game {
             playerFirst = !playerFirst;
         }
 
-        if (ifWin()){
+        if (ifWin() && !playerFirst){
             System.out.println("You win!");
+        } else if(ifWin() && playerFirst){
+            System.out.println("Computer wins!");
         } else if (isFull()){
             System.out.println("Board is full...");
         }

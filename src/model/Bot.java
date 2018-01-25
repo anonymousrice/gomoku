@@ -1,45 +1,27 @@
 package model;
 
 
-public class Bot implements GameStrategy {
+class Bot{
     private static final String MODE = "FREESTYLE";
-    private static final int MID_ROW = Game.getNumRow()/2;
-    private static final int MID_COL = Game.getNumColumn()/2;
+    private static final int MID_ROW = Game.getNumRow() / 2;
+    private static final int MID_COL = Game.getNumColumn() / 2;
     private Board board;
+    private int stone_colour = 0;
 
-    public Bot() {
-    }
-
-    public void setBoard(Board board) {
+    public Bot(int stone_colour, Board board) {
+        this.stone_colour = stone_colour;
         this.board = board;
     }
 
-    @Override
-    public void ifNone(){
-        board.placeStone(MID_ROW, MID_COL);
+    public int getStone_colour() {
+        return stone_colour;
     }
 
-    @Override
-    public void ifOne(){
-
-    }
-
-    @Override
-    public void ifTwo(){
-
-    }
-
-    @Override
-    public void ifThree(){
-
-    }
-
-    @Override
-    public void ifFour(){
-
-    }
-
-    public void play (){
+    public void play(){
+        if (board.getNum_stones() == 0){
+            board.placeStone(MID_ROW, MID_COL, stone_colour);
+            return;
+        }
 
     }
 }

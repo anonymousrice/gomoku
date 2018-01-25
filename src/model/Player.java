@@ -4,16 +4,18 @@ import java.util.Scanner;
 
 public class Player {
     private Board board;
+    private int stone_colour = 0;
 
-    public Player() {
-    }
-
-    public void setBoard(Board board) {
+    public Player(int stone_colour, Board board) {
+        this.stone_colour = stone_colour;
         this.board = board;
     }
 
+    public int getStone_colour() {
+        return stone_colour;
+    }
+
     public void play(){
-        int[][] boardArr = board.getBoard();
         System.out.println("Please enter the coordinate: (row, col)");
         Scanner sc = new Scanner (System.in);
         int counter = 0;
@@ -28,6 +30,6 @@ public class Player {
             counter++;
             if (counter >= 2) break;
         }
-        boardArr[row][col] = 1;
+        board.placeStone(row, col, stone_colour);
     }
 }
