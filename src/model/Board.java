@@ -1,9 +1,6 @@
-/**
- * Created by IntelliJ IDEA.
- * User: Zonggen
- * Date: 1/3/2018
- * Time: 1:26 PM
- */
+package model;
+
+
 public class Board {
     private int[][] board;
 

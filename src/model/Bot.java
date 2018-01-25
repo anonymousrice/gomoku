@@ -1,9 +1,6 @@
-/**
- * Created by IntelliJ IDEA.
- * User: Zonggen
- * Date: 1/3/2018
- * Time: 12:51 PM
- */
+package model;
+
+
 public class Bot implements GameStrategy {
     private static final String MODE = "FREESTYLE";
     private static final int MID_ROW = Game.getNumRow()/2;

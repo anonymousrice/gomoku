@@ -1,11 +1,7 @@
+package model;
+
 import java.util.Scanner;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Zonggen
- * Date: 1/3/2018
- * Time: 3:39 PM
- */
 public class Player {
     private Board board;
 

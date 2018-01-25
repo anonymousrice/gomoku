@@ -1,9 +1,6 @@
-/**
- * Created by IntelliJ IDEA.
- * User: Zonggen
- * Date: 1/2/2018
- * Time: 2:12 PM
- */
+package model;
+
+
 public class Game {
     private static final int NUM_ROW = 15;
     private static final int NUM_COLUMN = 15;
@@ -148,6 +145,7 @@ public class Game {
             } else {
                 bot.play();
             }
+            System.out.println("-----------------------------------");
             for (int[] rowArr : board){
                 for (int i : rowArr){
                     System.out.print(i + " ");
