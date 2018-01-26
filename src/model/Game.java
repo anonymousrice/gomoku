@@ -23,22 +23,27 @@ public class Game {
         return NUM_COLUMN;
     }
 
-    private boolean horizontalCheck(int[] row){
+    private static boolean horizontalCheck(int[] row){
+        int colour = 0;
         int counter = 0;
         for (int i : row){
-            if (i != 0){
-                counter += i;
+            if (i != 0 && i == colour){
+                ++counter;
             } else {
                 counter = 0;
+                if (i != 0){
+                    colour = i;
+                    ++counter;
+                }
             }
-            if (counter <= -4 || counter >= 4){
+            if (counter == 5){
                 return true;
             }
         }
         return false;
     }
 
-    private boolean verticalCheck(int[][] arr, int col){
+    private static boolean verticalCheck(int[][] arr, int col){
         int[] vertArr = new int [NUM_ROW];
         for (int row = 0; row < NUM_ROW; ++row){
             vertArr[row] = arr[row][col];
@@ -47,7 +52,7 @@ public class Game {
     }
 
     @SuppressWarnings("all")
-    private boolean diagonalCheck (int[][] arr){
+    private static boolean diagonalCheck (int[][] arr){
         int min = (NUM_ROW > NUM_COLUMN)? NUM_COLUMN : NUM_ROW;
         int[] diagArr = new int[min];
         // Three cases when deciding first element of the diagonal array
@@ -84,7 +89,7 @@ public class Game {
     }
 
     // Check diagonal of the other direction
-    private boolean reverseDiagonalCheck (int[][] arr){
+    private static boolean reverseDiagonalCheck (int[][] arr){
         int[][] reverse = new int[NUM_ROW][NUM_COLUMN];
         for (int row = 0; row < NUM_ROW; ++ row){
             for (int col = 0; col < NUM_COLUMN; ++col){
@@ -95,18 +100,18 @@ public class Game {
     }
 
 
-    public boolean ifWin(){
-        for (int[] row : board){
+    public static boolean ifWin(Board board){
+        for (int[] row : board.getBoard()){
             if (horizontalCheck(row)){
                 return true;
             }
         }
         for (int col = 0; col < NUM_COLUMN; ++col){
-            if (verticalCheck(board, col)){
+            if (verticalCheck(board.getBoard(), col)){
                 return true;
             }
         }
-        return diagonalCheck(board) || reverseDiagonalCheck(board);
+        return diagonalCheck(board.getBoard()) || reverseDiagonalCheck(board.getBoard());
     }
 
     public boolean isFull(){
@@ -135,7 +140,7 @@ public class Game {
         Bot bot = new Bot((playerFirst?-1:1),boardObj);
         Player player = new Player((playerFirst?1:-1),boardObj);
 
-        while (!ifWin() && !isFull()){
+        while (!ifWin(boardObj) && !isFull()){
             if (playerFirst){
                 player.play();
             } else {
@@ -151,9 +156,9 @@ public class Game {
             playerFirst = !playerFirst;
         }
 
-        if (ifWin() && !playerFirst){
+        if (ifWin(boardObj) && !playerFirst){
             System.out.println("You win!");
-        } else if(ifWin() && playerFirst){
+        } else if(ifWin(boardObj) && playerFirst){
             System.out.println("Computer wins!");
         } else if (isFull()){
             System.out.println("Board is full...");

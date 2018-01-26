@@ -18,6 +18,12 @@ public class Board {
         board[row][col] = colour;
         ++numStones;
     }
+
+    public void removeStone(int row, int col, int colour){
+        board[row][col] = 0;
+        --numStones;
+    }
+
     public int getStone(int row, int col){
         return board[row][col];
     }
@@ -122,14 +128,18 @@ public class Board {
                 break;
             }
         }
-//        System.out.println(scoreHori);
-//        System.out.println(scoreVert);
-//        System.out.println(scoreDiag);
-//        System.out.println(scoreReverse);
         if (colour == 1){
             return Math.max(Math.max(scoreHori, scoreHori), Math.max(scoreDiag, scoreReverse)) + 1;
         } else {
             return Math.min(Math.min(scoreHori, scoreVert), Math.min(scoreDiag, scoreReverse)) - 1;
         }
+    }
+
+    public boolean oneStepToWin(int row, int col, int colour){
+        this.placeStone(row, col, colour);
+        boolean result = Game.ifWin(this);
+        this.removeStone(row, col, colour);
+        return result;
+
     }
 }
