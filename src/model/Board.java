@@ -58,6 +58,7 @@ public class Board {
             if (board[row][i] == colour) {
                 scoreHori += colour;
             } else {
+                scoreHori += board[row][i];
                 break;
             }
         }
@@ -65,6 +66,7 @@ public class Board {
             if (board[row][i] == colour){
                 scoreHori += colour;
             } else {
+                scoreHori += board[row][i];
                 break;
             }
         }
@@ -73,6 +75,7 @@ public class Board {
             if (board[i][col] == colour){
                 scoreVert += colour;
             } else {
+                scoreVert += board[i][col];
                 break;
             }
         }
@@ -80,6 +83,7 @@ public class Board {
             if (board[i][col] == colour){
                 scoreVert += colour;
             } else {
+                scoreVert += board[i][col];
                 break;
             }
         }
@@ -89,6 +93,7 @@ public class Board {
             if (board[row-i][col-i]==colour){
                 scoreDiag += colour;
             } else {
+                scoreDiag += board[row-i][col-i];
                 break;
             }
         }
@@ -96,6 +101,7 @@ public class Board {
             if (board[row+i][col+i]==colour){
                 scoreDiag += colour;
             } else {
+                scoreDiag += board[row+i][col+i];
                 break;
             }
         }
@@ -104,6 +110,7 @@ public class Board {
             if (board[row+i][col-i]==colour){
                 scoreReverse += colour;
             } else {
+                scoreReverse += board[row+i][col-i];
                 break;
             }
         }
@@ -111,6 +118,7 @@ public class Board {
             if (board[row-i][col+i]==colour){
                 scoreReverse += colour;
             } else {
+                scoreReverse += board[row-i][col+i];
                 break;
             }
         }
