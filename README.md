@@ -1,2 +1,2 @@
 # gomoku
-This repository is for personal Java gaming framework practice.
+The java implementation of Gomoku game with non-AI algorithm.
