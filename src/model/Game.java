@@ -146,13 +146,24 @@ public class Game {
             } else {
                 bot.play();
             }
-            System.out.println("-----------------------------------");
-            for (int[] rowArr : board){
-                for (int i : rowArr){
-                    System.out.print(i + "\t");
-                }
-                System.out.println("");
+
+            // print board
+            System.out.println("------------------------------------------------------");
+            System.out.print("\t");
+            for (int i = 0; i < NUM_COLUMN; ++i){
+                System.out.format("\t%d",i);
             }
+            System.out.print("\n");
+            System.out.println("------------------------------------------------------");
+            for (int i = 0; i < NUM_ROW; ++i){
+                System.out.format("%d\t|", i);
+                for (int j : board[i]){
+                    System.out.print("\t"+j);
+                }
+                System.out.print("\n");
+            }
+
+
             playerFirst = !playerFirst;
         }
 

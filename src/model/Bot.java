@@ -35,18 +35,21 @@ class Bot {
                 if (currentScore > maxScore){
                     result.row_co = i;
                     result.col_co = j;
+                    maxScore = currentScore;
                 } else if (currentScore == maxScore){
-                    int opponentScore_max = board.scoreAfter(i,j,-stoneColour);
+                    int opponentScore_max = board.scoreAfter(result.row_co,result.col_co,-stoneColour);
                     int opponentScore_current = board.scoreAfter(i,j,-stoneColour);
                     if (stoneColour == 1){
                         if (opponentScore_current < opponentScore_max){
                             result.row_co = i;
                             result.col_co = j;
+                            maxScore = currentScore;
                         }
                     } else {
                         if (opponentScore_current > opponentScore_max){
                             result.row_co = i;
                             result.col_co = j;
+                            maxScore = currentScore;
                         }
                     }
                 }
