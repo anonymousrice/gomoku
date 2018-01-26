@@ -4,15 +4,15 @@ import java.util.Scanner;
 
 public class Player {
     private Board board;
-    private int stone_colour = 0;
+    private int stoneColour = 0;
 
-    public Player(int stone_colour, Board board) {
-        this.stone_colour = stone_colour;
+    public Player(int stoneColour, Board board) {
+        this.stoneColour = stoneColour;
         this.board = board;
     }
 
-    public int getStone_colour() {
-        return stone_colour;
+    public int getStoneColour() {
+        return stoneColour;
     }
 
     public void play(){
@@ -30,6 +30,6 @@ public class Player {
             counter++;
             if (counter >= 2) break;
         }
-        board.placeStone(row, col, stone_colour);
+        board.placeStone(row, col, stoneColour);
     }
 }

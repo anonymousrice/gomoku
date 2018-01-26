@@ -144,7 +144,7 @@ public class Game {
             System.out.println("-----------------------------------");
             for (int[] rowArr : board){
                 for (int i : rowArr){
-                    System.out.print(i + " ");
+                    System.out.print(i + "\t");
                 }
                 System.out.println("");
             }
