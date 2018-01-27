@@ -108,6 +108,9 @@ public class BoardController implements Initializable {
                 : "./src/images/white_stone.jpg");
     Image stoneImage = new Image(stone.toURI().toString());
     ImageView iv = new ImageView(stoneImage);
+    iv.setFitWidth(43);
+    iv.setFitHeight(43);
+    iv.setPreserveRatio(true);
     hbArr[row].getChildren().set(col, iv);
     if (Game.ifWin(game.getBoardObj())) {
       System.out.println("You Win!");
@@ -126,6 +129,9 @@ public class BoardController implements Initializable {
                 : "./src/images/white_stone.jpg");
     Image botStoneImage = new Image(botStone.toURI().toString());
     ImageView biv = new ImageView(botStoneImage);
+    biv.setFitWidth(43);
+    biv.setFitHeight(43);
+    biv.setPreserveRatio(true);
     hbArr[tuple.row_co].getChildren().set(tuple.col_co, biv);
     if (Game.ifWin(game.getBoardObj())) {
       System.out.println("Bot Wins!");

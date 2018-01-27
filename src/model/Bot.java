@@ -74,6 +74,7 @@ public class Bot {
       }
     }
     if (board.oneStepToWin(result.row_co, result.col_co, stoneColour)) {
+      System.out.println("one step to win");
       board.placeStone(result.row_co, result.col_co, stoneColour);
       return result;
     }
@@ -85,11 +86,15 @@ public class Bot {
         if (stoneColour == 1) {
           if (board.scoreAfter(i, j, -stoneColour) <= -4 * stoneColour) {
             board.placeStone(i, j, stoneColour);
+            result.row_co = i;
+            result.col_co = j;
             return result;
           }
         } else {
           if (board.scoreAfter(i, j, -stoneColour) >= 4 * -stoneColour) {
             board.placeStone(i, j, stoneColour);
+            result.row_co = i;
+            result.col_co = j;
             return result;
           }
         }
