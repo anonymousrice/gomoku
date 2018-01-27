@@ -6,6 +6,9 @@ public class Game {
   private static final int NUM_COLUMN = 15;
   private Board boardObj;
   private int[][] board;
+  private Player player;
+  private Bot bot;
+  private boolean playerFirst;
 
   public Game() {
     boardObj = new Board(NUM_ROW, NUM_COLUMN);
@@ -18,6 +21,22 @@ public class Game {
 
   public static int getNumColumn() {
     return NUM_COLUMN;
+  }
+
+  public Player getPlayer() {
+    return player;
+  }
+
+  public Bot getBot() {
+    return bot;
+  }
+
+  public Board getBoardObj() {
+    return boardObj;
+  }
+
+  public boolean isPlayerFirst() {
+    return playerFirst;
   }
 
   private static boolean horizontalCheck(int[] row) {
@@ -132,42 +151,8 @@ public class Game {
       System.out.println("Tails");
       System.out.println("Computer goes first...");
     }
-
-    Bot bot = new Bot((playerFirst ? -1 : 1), boardObj);
-    Player player = new Player((playerFirst ? 1 : -1), boardObj);
-
-    while (!ifWin(boardObj) && !isFull()) {
-      if (playerFirst) {
-        player.play();
-      } else {
-        bot.play();
-      }
-
-      // print board
-      System.out.println("------------------------------------------------------");
-      System.out.print("\t");
-      for (int i = 0; i < NUM_COLUMN; ++i) {
-        System.out.format("\t%d", i);
-      }
-      System.out.print("\n");
-      System.out.println("------------------------------------------------------");
-      for (int i = 0; i < NUM_ROW; ++i) {
-        System.out.format("%d\t|", i);
-        for (int j : board[i]) {
-          System.out.print("\t" + j);
-        }
-        System.out.print("\n");
-      }
-
-      playerFirst = !playerFirst;
-    }
-
-    if (ifWin(boardObj) && !playerFirst) {
-      System.out.println("You win!");
-    } else if (ifWin(boardObj) && playerFirst) {
-      System.out.println("Computer wins!");
-    } else if (isFull()) {
-      System.out.println("Board is full...");
-    }
+    this.bot = new Bot((playerFirst ? -1 : 1), boardObj);
+    this.player = new Player((playerFirst ? 1 : -1), boardObj);
+    this.playerFirst = playerFirst;
   }
 }
