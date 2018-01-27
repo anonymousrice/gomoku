@@ -78,20 +78,20 @@ public class Bot {
       board.placeStone(result.row_co, result.col_co, stoneColour);
       return result;
     }
-    // checks the opponent's score
+    // checks the player's score
     for (int i = 0; i < board.getNumRow(); ++i) {
       for (int j = 0; j < board.getNumCol(); ++j) {
         if (board.getStone(i, j) != 0) continue;
 
         if (stoneColour == 1) {
-          if (board.scoreAfter(i, j, -stoneColour) <= -4 * stoneColour) {
+          if (board.scoreAfter(i, j, -stoneColour) <= -(4 * stoneColour)) {
             board.placeStone(i, j, stoneColour);
             result.row_co = i;
             result.col_co = j;
             return result;
           }
         } else {
-          if (board.scoreAfter(i, j, -stoneColour) >= 4 * -stoneColour) {
+          if (board.scoreAfter(i, j, -stoneColour) >= -(4 * stoneColour)) {
             board.placeStone(i, j, stoneColour);
             result.row_co = i;
             result.col_co = j;

@@ -159,7 +159,7 @@ public class Board {
       }
     }
     if (colour == 1) {
-      return Math.max(Math.max(scoreHori, scoreHori), Math.max(scoreDiag, scoreReverse)) + 1;
+      return Math.max(Math.max(scoreHori, scoreVert), Math.max(scoreDiag, scoreReverse)) + 1;
     } else {
       return Math.min(Math.min(scoreHori, scoreVert), Math.min(scoreDiag, scoreReverse)) - 1;
     }
