@@ -1,28 +1,59 @@
 package model;
 
 public class Board {
+  /** Number of board columns and rows */
   private int numRow;
+
   private int numCol;
+  /** The array of arrays to store value of each location on board (aka stones) */
   private int[][] board;
+  /** The total number of stones that have placed */
   private int numStones;
 
-  public Board(int numRow, int numCol) {
+  /**
+   * Constructs a new Board object with desired number of columns and rows
+   *
+   * @param numRow desired number of rows
+   * @param numCol desired number of columns
+   */
+  Board(int numRow, int numCol) {
     this.board = new int[numRow][numCol];
     this.numRow = numRow;
     this.numCol = numCol;
     numStones = 0;
   }
 
+  /**
+   * Places an stone on the location (row, col) in int[][]board with black colour = 1, white = -1
+   *
+   * @param row row coordinate of the location
+   * @param col column coordinate of the location
+   * @param colour color of stone to be placed
+   */
   public void placeStone(int row, int col, int colour) {
     board[row][col] = colour;
     ++numStones;
   }
 
+  /**
+   * Removes an stone at the desired location (row, col) with desired colour black = 1, white = -1
+   *
+   * @param row row coordinate of the location
+   * @param col column coordinate of the location
+   * @param colour color of stone to be removed
+   */
   public void removeStone(int row, int col, int colour) {
     board[row][col] = 0;
     --numStones;
   }
 
+  /**
+   * Gets the stone value at the location (row, col) black = 1, white = -1, none = 0
+   *
+   * @param row row coordinate
+   * @param col column coordinate
+   * @return
+   */
   public int getStone(int row, int col) {
     return board[row][col];
   }
@@ -134,6 +165,14 @@ public class Board {
     }
   }
 
+  /**
+   * Determines if the game will end after placing on location (row, col)
+   *
+   * @param row row coordinate
+   * @param col column coordinate
+   * @param colour colour of the stone, black = 1, white = -1
+   * @return true if after placing this stone, false otherwise
+   */
   public boolean oneStepToWin(int row, int col, int colour) {
     this.placeStone(row, col, colour);
     boolean result = Game.ifWin(this);

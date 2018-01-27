@@ -1,12 +1,23 @@
 package model;
 
 public class Bot {
+  /** Current game mode */
   private static final String MODE = "FREESTYLE";
+  /** Mid point of the board that used to place the first stone of the game */
   private static final int MID_ROW = Game.getNumRow() / 2;
+
   private static final int MID_COL = Game.getNumColumn() / 2;
+  /** Current gaming board object */
   private Board board;
+  /** Stone colour of the bot, black = 1, white = -1 */
   private int stoneColour = 0;
 
+  /**
+   * Constructs a bot object with stone colour stoneColour, playing on board
+   *
+   * @param stoneColour the stone colour of the bot
+   * @param board current playing board object
+   */
   Bot(int stoneColour, Board board) {
     this.stoneColour = stoneColour;
     this.board = board;
@@ -16,6 +27,14 @@ public class Bot {
     return stoneColour;
   }
 
+  /**
+   * Makes the bot place a stone and returns a Tuple object that represents location Algorithm as
+   * following: 1). determine if first stone on the board 2). determine the score bot can get 3).
+   * determine the score player will get, if player is winning next stone, bot should defence 4). if
+   * player will not win next stone, let bot attack on the location calculated in 2)
+   *
+   * @return a Tuple object that represents a location
+   */
   public Tuple play() {
     Tuple result = new Tuple(-1, -1);
     if (board.getNumStones() == 0) {
@@ -80,5 +99,4 @@ public class Bot {
     board.placeStone(result.row_co, result.col_co, stoneColour);
     return result;
   }
-
 }

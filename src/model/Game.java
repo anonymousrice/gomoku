@@ -2,14 +2,22 @@ package model;
 
 /** Record the black stone as 1 on board, and -1 for the white stone */
 public class Game {
+  /** The board size of the game */
   private static final int NUM_ROW = 15;
+
   private static final int NUM_COLUMN = 15;
+  /** Actual Board object and int[][] to store actual stone values */
   private Board boardObj;
+
   private int[][] board;
+  /** Currently playing Player and Bot objects */
   private Player player;
+
   private Bot bot;
+  /** Whether player win go first */
   private boolean playerFirst;
 
+  /** Constructs a Game object and initialize a Board object with size (NUM_ROW, NUM_COLUMN) */
   public Game() {
     boardObj = new Board(NUM_ROW, NUM_COLUMN);
     this.board = boardObj.getBoard();
@@ -23,22 +31,12 @@ public class Game {
     return NUM_COLUMN;
   }
 
-  public Player getPlayer() {
-    return player;
-  }
-
-  public Bot getBot() {
-    return bot;
-  }
-
-  public Board getBoardObj() {
-    return boardObj;
-  }
-
-  public boolean isPlayerFirst() {
-    return playerFirst;
-  }
-
+  /**
+   * Checks if the game is already over by checking horizontal value of one row
+   *
+   * @param row integer array that represents a row on the board
+   * @return true if game is over, false otherwise
+   */
   private static boolean horizontalCheck(int[] row) {
     int colour = 0;
     int counter = 0;
@@ -59,6 +57,13 @@ public class Game {
     return false;
   }
 
+  /**
+   * Checks if the game is already over by checking vertical value of one column
+   *
+   * @param arr an array represents the board
+   * @param col desired checking column
+   * @return true if game is over, false otherwise
+   */
   private static boolean verticalCheck(int[][] arr, int col) {
     int[] vertArr = new int[NUM_ROW];
     for (int row = 0; row < NUM_ROW; ++row) {
@@ -67,6 +72,12 @@ public class Game {
     return horizontalCheck(vertArr);
   }
 
+  /**
+   * Checks if the game is already over by checking diagonal value
+   *
+   * @param arr an array represents the board
+   * @return true if game is over, false otherwise
+   */
   @SuppressWarnings("all")
   private static boolean diagonalCheck(int[][] arr) {
     int min = (NUM_ROW > NUM_COLUMN) ? NUM_COLUMN : NUM_ROW;
@@ -104,7 +115,12 @@ public class Game {
     return false;
   }
 
-  // Check diagonal of the other direction
+  /**
+   * Checks if the game is already over by checking reversed diagonal value
+   *
+   * @param arr an array represents the board
+   * @return true if game is over, false otherwise
+   */
   private static boolean reverseDiagonalCheck(int[][] arr) {
     int[][] reverse = new int[NUM_ROW][NUM_COLUMN];
     for (int row = 0; row < NUM_ROW; ++row) {
@@ -115,6 +131,12 @@ public class Game {
     return diagonalCheck(reverse);
   }
 
+  /**
+   * Checks if the game is over, by checking all directions
+   *
+   * @param board currently playing board
+   * @return true if the game is over, false otherwise
+   */
   public static boolean ifWin(Board board) {
     for (int[] row : board.getBoard()) {
       if (horizontalCheck(row)) {
@@ -129,6 +151,27 @@ public class Game {
     return diagonalCheck(board.getBoard()) || reverseDiagonalCheck(board.getBoard());
   }
 
+  public Player getPlayer() {
+    return player;
+  }
+
+  public Bot getBot() {
+    return bot;
+  }
+
+  public Board getBoardObj() {
+    return boardObj;
+  }
+
+  public boolean isPlayerFirst() {
+    return playerFirst;
+  }
+
+  /**
+   * Checks if there's place to place another stone on the board
+   *
+   * @return true if there's space on the board, false otherwise
+   */
   public boolean isFull() {
     for (int[] arr : board) {
       for (int value : arr) {
@@ -140,6 +183,10 @@ public class Game {
     return true;
   }
 
+  /**
+   * Initializes the game and flips a coin if heads, then player plays first otherwise, bot plays
+   * first
+   */
   public void play() {
     boolean playerFirst = false;
     System.out.println("Flipping a coin...");
