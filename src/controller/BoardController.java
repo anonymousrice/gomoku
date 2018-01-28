@@ -13,7 +13,6 @@ import model.Game;
 import model.Player;
 import model.Tuple;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -46,8 +45,7 @@ public class BoardController implements Initializable {
     bot = game.getBot();
 
     hbArr = new HBox[15];
-    File file = new File("./src/images/board.jpg");
-    Image image = new Image(file.toURI().toString());
+    Image image = new Image(getClass().getResource("/images/board.jpg").toString());
     board.setImage(image);
 
     VBox vb = new VBox();
@@ -58,8 +56,7 @@ public class BoardController implements Initializable {
         final int row_temp = row;
         final int col_temp = col;
 
-        File stone = new File("./src/images/black_stone.jpg");
-        Image stoneImage = new Image(stone.toURI().toString());
+        Image stoneImage = new Image(getClass().getResource("/images/black_stone.jpg").toString());
         ImageView iv = new ImageView(stoneImage);
         iv.setFitWidth(43);
         iv.setFitHeight(43);
@@ -79,12 +76,9 @@ public class BoardController implements Initializable {
 
     if (!game.isPlayerFirst()) {
       Tuple tuple = bot.play();
-      File botStone =
-          new File(
-              bot.getStoneColour() == 1
-                  ? "./src/images/black_stone.jpg"
-                  : "./src/images/white_stone.jpg");
-      Image botStoneImage = new Image(botStone.toURI().toString());
+      Image botStoneImage = new Image(bot.getStoneColour() == 1
+              ? getClass().getResource("/images/black_stone.jpg").toString()
+              : getClass().getResource("/images/white_stone.jpg").toString());
       ImageView biv = new ImageView(botStoneImage);
       hbArr[tuple.row_co].getChildren().set(tuple.col_co, biv);
     }
@@ -101,12 +95,9 @@ public class BoardController implements Initializable {
 
     // player place the stone..
     player.putStone(row, col, player.getStoneColour());
-    File stone =
-        new File(
-            player.getStoneColour() == 1
-                ? "./src/images/black_stone.jpg"
-                : "./src/images/white_stone.jpg");
-    Image stoneImage = new Image(stone.toURI().toString());
+    Image stoneImage = new Image(player.getStoneColour() == 1
+            ? getClass().getResource("/images/black_stone.jpg").toString()
+            : getClass().getResource("/images/white_stone.jpg").toString());
     ImageView iv = new ImageView(stoneImage);
     iv.setFitWidth(43);
     iv.setFitHeight(43);
@@ -122,12 +113,9 @@ public class BoardController implements Initializable {
 
     // bot place the stone..
     Tuple tuple = bot.play();
-    File botStone =
-        new File(
-            bot.getStoneColour() == 1
-                ? "./src/images/black_stone.jpg"
-                : "./src/images/white_stone.jpg");
-    Image botStoneImage = new Image(botStone.toURI().toString());
+    Image botStoneImage = new Image(bot.getStoneColour() == 1
+            ? getClass().getResource("/images/black_stone.jpg").toString()
+            : getClass().getResource("/images/white_stone.jpg").toString());
     ImageView biv = new ImageView(botStoneImage);
     biv.setFitWidth(43);
     biv.setFitHeight(43);

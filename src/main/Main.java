@@ -24,7 +24,7 @@ public class Main extends Application {
    */
   @Override
   public void start(Stage primaryStage) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("../view/Board.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/view/Board.fxml"));
     Scene scene = new Scene(root);
     primaryStage.setTitle("Gomoku Game Non-AI Version");
     primaryStage.setScene(scene);
