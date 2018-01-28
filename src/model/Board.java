@@ -160,6 +160,15 @@ public class Board {
         break;
       }
     }
+    if ((scoreHori>=2 && scoreVert==2) ||
+            (scoreHori>=2 && scoreDiag>=2)||
+            (scoreHori>=2 && scoreReverse>=2)||
+            (scoreVert>=2 && scoreDiag>=2)||
+            (scoreVert>=2 && scoreReverse>=2)||
+            (scoreDiag>=2 && scoreReverse>=2)){
+      return 4 * colour;
+    }
+
     if (colour == 1) {
       return Math.max(Math.max(scoreHori, scoreVert), Math.max(scoreDiag, scoreReverse)) + 1;
     } else {
