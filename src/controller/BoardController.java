@@ -2,6 +2,7 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -29,8 +30,10 @@ public class BoardController implements Initializable {
 
   @FXML private ImageView board;
 
+  @FXML private TextArea textArea;
+
   /**
-   * Initializes the game, by creating game object and builds the interface for the game
+   * Set the board image as background
    *
    * @param location The location used to resolve relative paths for the root object, or null if the
    *     location is not known.
@@ -39,54 +42,14 @@ public class BoardController implements Initializable {
    */
   @Override
   public void initialize(URL location, ResourceBundle resource) {
-    game = new Game();
-    game.play();
-    player = game.getPlayer();
-    bot = game.getBot();
-
-    hbArr = new HBox[15];
+    textArea.appendText("Welcome!\nPress Start to Begin...\n");
     Image image = new Image(getClass().getResource("/images/board.jpg").toString());
     board.setImage(image);
-
-    VBox vb = new VBox();
-    for (int row = 0; row < 15; ++row) {
-      HBox hb = new HBox();
-      hbArr[row] = hb;
-      for (int col = 0; col < 15; ++col) {
-        final int row_temp = row;
-        final int col_temp = col;
-
-        Image stoneImage = new Image(getClass().getResource("/images/black_stone.jpg").toString());
-        ImageView iv = new ImageView(stoneImage);
-        iv.setFitWidth(43);
-        iv.setFitHeight(43);
-        iv.setPreserveRatio(true);
-        iv.setOpacity(0);
-        iv.addEventHandler(
-            MouseEvent.MOUSE_CLICKED,
-            event -> {
-              clickAction(row_temp, col_temp);
-              iv.setOpacity(1.0);
-            });
-        hb.getChildren().add(iv);
-      }
-      vb.getChildren().add(hb);
-    }
-    pane.getChildren().add(vb);
-
-    if (!game.isPlayerFirst()) {
-      Tuple tuple = bot.play();
-      Image botStoneImage = new Image(bot.getStoneColour() == 1
-              ? getClass().getResource("/images/black_stone.jpg").toString()
-              : getClass().getResource("/images/white_stone.jpg").toString());
-      ImageView biv = new ImageView(botStoneImage);
-      hbArr[tuple.row_co].getChildren().set(tuple.col_co, biv);
-    }
   }
 
   /**
-   * Sets the stone on the board Note that as long as this method runs, it is the human's turn to
-   * play.
+   * Sets the stone on the board
+   * when the player click
    *
    * @param row row number
    * @param col column number
@@ -104,10 +67,10 @@ public class BoardController implements Initializable {
     iv.setPreserveRatio(true);
     hbArr[row].getChildren().set(col, iv);
     if (Game.ifWin(game.getBoardObj())) {
-      System.out.println("You Win!");
+      textArea.appendText("You Win!\n");
       return;
     } else if (game.isFull()) {
-      System.out.println("Board Full..");
+      textArea.appendText("Board Full..\n");
       return;
     }
 
@@ -122,13 +85,65 @@ public class BoardController implements Initializable {
     biv.setPreserveRatio(true);
     hbArr[tuple.row_co].getChildren().set(tuple.col_co, biv);
     if (Game.ifWin(game.getBoardObj())) {
-      System.out.println("Bot Wins!");
+      textArea.appendText("Bot Wins!\n");
     } else if (game.isFull()) {
-      System.out.println("Board Full..");
+      textArea.appendText("Board Full..\n");
     }
   }
 
-  /** A button action that will make the game begin */
+  /**
+   * Starts the game by initializing the Game, Player, and Bot objects
+   * sets the proper on-click action on the board
+   */
   @FXML
-  private void handleStart() {}
+  private void handleStart() {
+    game = new Game();
+    game.play(this);
+    player = game.getPlayer();
+    bot = game.getBot();
+
+    hbArr = new HBox[15];
+    VBox vb = new VBox();
+    for (int row = 0; row < 15; ++row) {
+      HBox hb = new HBox();
+      hbArr[row] = hb;
+      for (int col = 0; col < 15; ++col) {
+        final int row_temp = row;
+        final int col_temp = col;
+
+        Image stoneImage = new Image(getClass().getResource("/images/black_stone.jpg").toString());
+        ImageView iv = new ImageView(stoneImage);
+        iv.setFitWidth(43);
+        iv.setFitHeight(43);
+        iv.setPreserveRatio(true);
+        iv.setOpacity(0);
+        iv.addEventHandler(
+                MouseEvent.MOUSE_CLICKED,
+                event -> {
+                  clickAction(row_temp, col_temp);
+                  iv.setOpacity(1.0);
+                });
+        hb.getChildren().add(iv);
+      }
+      vb.getChildren().add(hb);
+    }
+    pane.getChildren().add(vb);
+
+    if (!game.isPlayerFirst()) {
+      Tuple tuple = bot.play();
+      Image botStoneImage = new Image(bot.getStoneColour() == 1
+              ? getClass().getResource("/images/black_stone.jpg").toString()
+              : getClass().getResource("/images/white_stone.jpg").toString());
+      ImageView biv = new ImageView(botStoneImage);
+      hbArr[tuple.row_co].getChildren().set(tuple.col_co, biv);
+    }
+  }
+
+  /**
+   * Appends a String text to the textArea
+   * @param text String to be appended to textArea
+   */
+  public void appendText(String text){
+    textArea.appendText(text);
+  }
 }

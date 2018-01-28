@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-
-<Pane fx:id="pane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BoardController">
+<AnchorPane prefHeight="750.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BoardController">
    <children>
-      <ImageView fx:id="board" fitHeight="645.0" fitWidth="645.0" pickOnBounds="true" preserveRatio="true" />
+      <Pane fx:id="pane" layoutX="28.0" layoutY="30.0" prefHeight="645.0" prefWidth="645.0">
+         <children>
+            <ImageView fx:id="board" fitHeight="645.0" fitWidth="645.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Pane>
+      <Button layoutX="746.0" layoutY="657.0" mnemonicParsing="false" onAction="#handleStart" prefHeight="41.0" prefWidth="135.0" text="Start" />
+      <TextArea fx:id="textArea" editable="false" layoutX="696.0" layoutY="52.0" prefHeight="588.0" prefWidth="243.0" snapToPixel="false">
+         <font>
+            <Font size="19.0" />
+         </font></TextArea>
    </children>
-</Pane>
+</AnchorPane>

@@ -28,10 +28,12 @@ public class Bot {
   }
 
   /**
-   * Makes the bot place a stone and returns a Tuple object that represents location Algorithm as
-   * following: 1). determine if first stone on the board 2). determine the score bot can get 3).
-   * determine the score player will get, if player is winning next stone, bot should defence 4). if
-   * player will not win next stone, let bot attack on the location calculated in 2)
+   * Makes the bot place a stone and returns a Tuple object that represents location
+   * Algorithm as following:
+   * 1). determine if first stone on the board
+   * 2). determine the score bot can get
+   * 3). determine the score player will get, if player is winning next stone, bot should defence
+   * 4). if player will not win next stone, let bot attack on the location calculated in 2)
    *
    * @return a Tuple object that represents a location
    */
@@ -74,7 +76,6 @@ public class Bot {
       }
     }
     if (board.oneStepToWin(result.row_co, result.col_co, stoneColour)) {
-      System.out.println("one step to win");
       board.placeStone(result.row_co, result.col_co, stoneColour);
       return result;
     }
@@ -100,7 +101,7 @@ public class Bot {
         }
       }
     }
-    System.out.format("coordinate: %d %d\n", result.row_co, result.col_co);
+//    System.out.format("coordinate: %d %d\n", result.row_co, result.col_co);
     board.placeStone(result.row_co, result.col_co, stoneColour);
     return result;
   }

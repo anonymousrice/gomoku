@@ -1,5 +1,7 @@
 package model;
 
+import controller.BoardController;
+
 /** Record the black stone as 1 on board, and -1 for the white stone */
 public class Game {
   /** The board size of the game */
@@ -184,19 +186,20 @@ public class Game {
   }
 
   /**
-   * Initializes the game and flips a coin if heads, then player plays first otherwise, bot plays
-   * first
+   * Initializes the game and flips a coin
+   * If heads, player plays first
+   * otherwise bot plays first
    */
-  public void play() {
+  public void play(BoardController controller) {
     boolean playerFirst = false;
-    System.out.println("Flipping a coin...");
+    controller.appendText("Flipping a coin...\n");
     if (Math.random() < 0.5) {
-      System.out.println("Heads");
-      System.out.println("You go first...");
+      controller.appendText("Heads\n");
+      controller.appendText("You go first...\n");
       playerFirst = true;
     } else {
-      System.out.println("Tails");
-      System.out.println("Computer goes first...");
+      controller.appendText("Tails\n");
+      controller.appendText("Computer goes first...\n");
     }
     this.bot = new Bot((playerFirst ? -1 : 1), boardObj);
     this.player = new Player((playerFirst ? 1 : -1), boardObj);

@@ -5,8 +5,7 @@ public class Player {
   private int stoneColour = 0;
 
   /**
-   * Constructs a player object, playing with stone color, stoneColour and playing on the board,
-   * board
+   * Constructs a player object
    *
    * @param stoneColour the colour of stone the player is playing
    * @param board the Board object that player is playing on

@@ -24,7 +24,7 @@ public class Board {
   }
 
   /**
-   * Places an stone on the location (row, col) in int[][]board with black colour = 1, white = -1
+   * Places a stone on the location (row, col) in int[][]board with black colour = 1, white = -1
    *
    * @param row row coordinate of the location
    * @param col column coordinate of the location
@@ -36,7 +36,8 @@ public class Board {
   }
 
   /**
-   * Removes an stone at the desired location (row, col) with desired colour black = 1, white = -1
+   * Removes a stone at the desired location (row, col) with desired colour
+   * black = 1, white = -1
    *
    * @param row row coordinate of the location
    * @param col column coordinate of the location
@@ -48,7 +49,8 @@ public class Board {
   }
 
   /**
-   * Gets the stone value at the location (row, col) black = 1, white = -1, none = 0
+   * Gets the stone value at the location (row, col)
+   * black = 1, white = -1, none = 0
    *
    * @param row row coordinate
    * @param col column coordinate
