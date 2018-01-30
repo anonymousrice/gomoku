@@ -5,7 +5,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -18,11 +17,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class BoardController implements Initializable {
+  private static final int NUM_ROW = 15;
+  private static final int NUM_COL = 15;
+  private static final int PX_STONE = 43;
+  
+  /** Whether the program is first time running. */
+  private boolean ifFirst;
   /** A variable to store HBox inside VBox */
   private HBox[] hbArr;
   /** The current game, player, and bot objects */
   private Game game;
-
   private Player player;
   private Bot bot;
 
@@ -42,6 +46,7 @@ public class BoardController implements Initializable {
    */
   @Override
   public void initialize(URL location, ResourceBundle resource) {
+    ifFirst = true;
     textArea.appendText("Welcome!\nPress Start to Begin...\n");
     Image image = new Image(getClass().getResource("/images/board.jpg").toString());
     board.setImage(image);
@@ -62,15 +67,17 @@ public class BoardController implements Initializable {
             ? getClass().getResource("/images/black_stone.jpg").toString()
             : getClass().getResource("/images/white_stone.jpg").toString());
     ImageView iv = new ImageView(stoneImage);
-    iv.setFitWidth(43);
-    iv.setFitHeight(43);
+    iv.setFitWidth(PX_STONE);
+    iv.setFitHeight(PX_STONE);
     iv.setPreserveRatio(true);
     hbArr[row].getChildren().set(col, iv);
     if (Game.ifWin(game.getBoardObj())) {
       textArea.appendText("You Win!\n");
+      removeMouseClickedEvent();
       return;
     } else if (game.isFull()) {
       textArea.appendText("Board Full..\n");
+      removeMouseClickedEvent();
       return;
     }
 
@@ -80,14 +87,16 @@ public class BoardController implements Initializable {
             ? getClass().getResource("/images/black_stone.jpg").toString()
             : getClass().getResource("/images/white_stone.jpg").toString());
     ImageView biv = new ImageView(botStoneImage);
-    biv.setFitWidth(43);
-    biv.setFitHeight(43);
+    biv.setFitWidth(PX_STONE);
+    biv.setFitHeight(PX_STONE);
     biv.setPreserveRatio(true);
     hbArr[tuple.row_co].getChildren().set(tuple.col_co, biv);
     if (Game.ifWin(game.getBoardObj())) {
       textArea.appendText("Bot Wins!\n");
+      removeMouseClickedEvent();
     } else if (game.isFull()) {
       textArea.appendText("Board Full..\n");
+      removeMouseClickedEvent();
     }
   }
 
@@ -101,24 +110,30 @@ public class BoardController implements Initializable {
     game.play(this);
     player = game.getPlayer();
     bot = game.getBot();
+    if (!ifFirst){
+      for (int i = 0; i < NUM_ROW; ++i){
+        for (int j = 0; j < NUM_COL; ++j){
+          hbArr[i].getChildren().get(j).setOpacity(0);
+        }
+      }
+    }
 
-    hbArr = new HBox[15];
+    hbArr = new HBox[NUM_COL];
     VBox vb = new VBox();
-    for (int row = 0; row < 15; ++row) {
+    for (int row = 0; row < NUM_ROW; ++row) {
       HBox hb = new HBox();
       hbArr[row] = hb;
-      for (int col = 0; col < 15; ++col) {
+      for (int col = 0; col < NUM_COL; ++col) {
         final int row_temp = row;
         final int col_temp = col;
 
         Image stoneImage = new Image(getClass().getResource("/images/black_stone.jpg").toString());
         ImageView iv = new ImageView(stoneImage);
-        iv.setFitWidth(43);
-        iv.setFitHeight(43);
+        iv.setFitWidth(PX_STONE);
+        iv.setFitHeight(PX_STONE);
         iv.setPreserveRatio(true);
         iv.setOpacity(0);
-        iv.addEventHandler(
-                MouseEvent.MOUSE_CLICKED,
+        iv.setOnMouseClicked(
                 event -> {
                   clickAction(row_temp, col_temp);
                   iv.setOpacity(1.0);
@@ -135,8 +150,12 @@ public class BoardController implements Initializable {
               ? getClass().getResource("/images/black_stone.jpg").toString()
               : getClass().getResource("/images/white_stone.jpg").toString());
       ImageView biv = new ImageView(botStoneImage);
+      biv.setFitWidth(PX_STONE);
+      biv.setFitHeight(PX_STONE);
+      biv.setPreserveRatio(true);
       hbArr[tuple.row_co].getChildren().set(tuple.col_co, biv);
     }
+    ifFirst = false;
   }
 
   /**
@@ -145,5 +164,13 @@ public class BoardController implements Initializable {
    */
   public void appendText(String text){
     textArea.appendText(text);
+  }
+
+  private void removeMouseClickedEvent (){
+    for (int i = 0; i < NUM_ROW; ++i){
+      for (int j = 0; j < NUM_COL; ++j){
+        hbArr[i].getChildren().get(j).setOnMouseClicked(null);
+      }
+    }
   }
 }
