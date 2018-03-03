@@ -41,9 +41,8 @@ public class Board {
    *
    * @param row row coordinate of the location
    * @param col column coordinate of the location
-   * @param colour color of stone to be removed
    */
-  public void removeStone(int row, int col, int colour) {
+  public void removeStone(int row, int col) {
     board[row][col] = 0;
     --numStones;
   }
@@ -86,42 +85,41 @@ public class Board {
    * @return the score point after placing the stone
    */
   public int scoreAfter(int row, int col, int colour) {
-    int scoreHori = 0;
-    int scoreVert = 0;
-    int scoreDiag = 0;
-    int scoreReverse = 0;
+    // Note that the following scores account the opponent's score
+    // Horizontal, Vertical, Diagonal, Reverse Diagonal
+    int score[] = {0, 0, 0, 0};
 
     // horizontal check
     for (int i = col - 1; i >= 0; --i) {
       if (board[row][i] == colour) {
-        scoreHori += colour;
+        score[0] += colour;
       } else {
-        scoreHori += board[row][i];
+        score[0] += board[row][i];
         break;
       }
     }
     for (int i = col + 1; i < numCol; ++i) {
       if (board[row][i] == colour) {
-        scoreHori += colour;
+        score[0] += colour;
       } else {
-        scoreHori += board[row][i];
+        score[0] += board[row][i];
         break;
       }
     }
     // vertical check
     for (int i = row - 1; i >= 0; --i) {
       if (board[i][col] == colour) {
-        scoreVert += colour;
+        score[1] += colour;
       } else {
-        scoreVert += board[i][col];
+        score[1] += board[i][col];
         break;
       }
     }
     for (int i = row + 1; i < numRow; ++i) {
       if (board[i][col] == colour) {
-        scoreVert += colour;
+        score[1] += colour;
       } else {
-        scoreVert += board[i][col];
+        score[1] += board[i][col];
         break;
       }
     }
@@ -129,61 +127,50 @@ public class Board {
     // diagonal check
     for (int i = 1; row - i >= 0 && col - i >= 0; ++i) {
       if (board[row - i][col - i] == colour) {
-        scoreDiag += colour;
+        score[2] += colour;
       } else {
-        scoreDiag += board[row - i][col - i];
+        score[2] += board[row - i][col - i];
         break;
       }
     }
     for (int i = 1; row + i < numRow && col + i < numCol; ++i) {
       if (board[row + i][col + i] == colour) {
-        scoreDiag += colour;
+        score[2] += colour;
       } else {
-        scoreDiag += board[row + i][col + i];
+        score[2] += board[row + i][col + i];
         break;
       }
     }
     // reverse diagonal check
     for (int i = 1; row + i < numRow && col - i >= 0; ++i) {
       if (board[row + i][col - i] == colour) {
-        scoreReverse += colour;
+        score[3] += colour;
       } else {
-        scoreReverse += board[row + i][col - i];
+        score[3] += board[row + i][col - i];
         break;
       }
     }
     for (int i = 1; row - i >= 0 && col + i < numCol; ++i) {
       if (board[row - i][col + i] == colour) {
-        scoreReverse += colour;
+        score[3] += colour;
       } else {
-        scoreReverse += board[row - i][col + i];
+        score[3] += board[row - i][col + i];
         break;
       }
     }
-    if (colour==1) {
-      if ((scoreHori >= 2 && scoreVert == 2) ||
-              (scoreHori >= 2 && scoreDiag >= 2) ||
-              (scoreHori >= 2 && scoreReverse >= 2) ||
-              (scoreVert >= 2 && scoreDiag >= 2) ||
-              (scoreVert >= 2 && scoreReverse >= 2) ||
-              (scoreDiag >= 2 && scoreReverse >= 2)) {
-        return 4 * colour;
-      }
+    if ((Math.abs(score[0]) >= 2 && Math.abs(score[1]) >= 2) ||
+            (Math.abs(score[0]) >= 2 && Math.abs(score[2]) >= 2) ||
+            (Math.abs(score[0]) >= 2 && Math.abs(score[3]) >= 2) ||
+            (Math.abs(score[1]) >= 2 && Math.abs(score[2]) >= 2) ||
+            (Math.abs(score[1]) >= 2 && Math.abs(score[3]) >= 2) ||
+            (Math.abs(score[2]) >= 2 && Math.abs(score[3]) >= 2)) {
+      return 5 * colour;
+    } else if (oneStepToWin(row, col, colour)){
+      return 6 * colour;
+    } else if (colour == 1) {
+      return Math.max(Math.max(score[0], score[1]), Math.max(score[2], score[3])) + 1;
     } else {
-      if ((-scoreHori >= 2 && -scoreVert == 2) ||
-              (-scoreHori >= 2 && -scoreDiag >= 2) ||
-              (-scoreHori >= 2 && -scoreReverse >= 2) ||
-              (-scoreVert >= 2 && -scoreDiag >= 2) ||
-              (-scoreVert >= 2 && -scoreReverse >= 2) ||
-              (-scoreDiag >= 2 && -scoreReverse >= 2)) {
-        return 4 * colour;
-      }
-    }
-
-    if (colour == 1) {
-      return Math.max(Math.max(scoreHori, scoreVert), Math.max(scoreDiag, scoreReverse)) + 1;
-    } else {
-      return Math.min(Math.min(scoreHori, scoreVert), Math.min(scoreDiag, scoreReverse)) - 1;
+      return Math.min(Math.min(score[0], score[1]), Math.min(score[2], score[3])) - 1;
     }
   }
 
@@ -193,12 +180,12 @@ public class Board {
    * @param row row coordinate
    * @param col column coordinate
    * @param colour colour of the stone, black = 1, white = -1
-   * @return true if after placing this stone, false otherwise
+   * @return true if win after placing this stone, false otherwise
    */
   public boolean oneStepToWin(int row, int col, int colour) {
     this.placeStone(row, col, colour);
     boolean result = Game.ifWin(this);
-    this.removeStone(row, col, colour);
+    this.removeStone(row, col);
     return result;
   }
 }

@@ -59,18 +59,10 @@ public class Bot {
         } else if (currentScore == maxScore) {
           int opponentScore_max = board.scoreAfter(result.row_co, result.col_co, -stoneColour);
           int opponentScore_current = board.scoreAfter(i, j, -stoneColour);
-          if (stoneColour == 1) {
-            if (opponentScore_current < opponentScore_max) {
-              result.row_co = i;
-              result.col_co = j;
-              maxScore = currentScore;
-            }
-          } else {
-            if (opponentScore_current > opponentScore_max) {
-              result.row_co = i;
-              result.col_co = j;
-              maxScore = currentScore;
-            }
+          if (Math.abs(opponentScore_current) > Math.abs(opponentScore_max)) {
+            result.row_co = i;
+            result.col_co = j;
+            maxScore = currentScore;
           }
         }
       }
@@ -83,26 +75,31 @@ public class Bot {
     for (int i = 0; i < board.getNumRow(); ++i) {
       for (int j = 0; j < board.getNumCol(); ++j) {
         if (board.getStone(i, j) != 0) continue;
-
-        if (stoneColour == 1) {
-          if (board.scoreAfter(i, j, -stoneColour) <= -(4 * stoneColour)) {
-            board.placeStone(i, j, stoneColour);
-            result.row_co = i;
-            result.col_co = j;
-            return result;
-          }
-        } else {
-          if (board.scoreAfter(i, j, -stoneColour) >= -(4 * stoneColour)) {
-            board.placeStone(i, j, stoneColour);
-            result.row_co = i;
-            result.col_co = j;
-            return result;
-          }
+        int opponentScore = Math.abs(board.scoreAfter(i, j, -stoneColour));
+        //int count = countLethalThreat(i, j);
+        if (opponentScore >= Math.abs(4 * stoneColour)) {
+          board.placeStone(i, j, stoneColour);
+          result.row_co = i;
+          result.col_co = j;
+          return result;
         }
       }
     }
-//    System.out.format("coordinate: %d %d\n", result.row_co, result.col_co);
     board.placeStone(result.row_co, result.col_co, stoneColour);
     return result;
+  }
+
+  private int countLethalThreat (int row, int col){
+    int count = 0;
+    board.placeStone(row, col, -stoneColour);
+    for (int i = 0; i < Game.getNumRow(); ++i){
+      for (int j = 0; j < Game.getNumColumn(); ++j){
+        if (Math.abs(board.scoreAfter(i, j, -stoneColour)) > 4) {
+          ++count;
+        }
+      }
+    }
+    board.removeStone(row, col);
+    return count;
   }
 }
