@@ -166,6 +166,14 @@ public class BoardController implements Initializable {
     textArea.appendText(text);
   }
 
+  /**
+   * Sets a String text to the textArea
+   * @param text String to be set in the textArea
+   */
+  public void setText(String text) {
+    textArea.setText(text);
+  }
+
   private void removeMouseClickedEvent (){
     for (int i = 0; i < NUM_ROW; ++i){
       for (int j = 0; j < NUM_COL; ++j){

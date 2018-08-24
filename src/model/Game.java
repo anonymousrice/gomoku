@@ -191,6 +191,7 @@ public class Game {
    * otherwise bot plays first
    */
   public void play(BoardController controller) {
+    controller.setText("");
     boolean playerFirst = false;
     controller.appendText("Flipping a coin...\n");
     if (Math.random() < 0.5) {
