@@ -1,4 +1,4 @@
-# Gomoku
+# Gomoku | 五子棋
 
 ![gomoku](https://user-images.githubusercontent.com/26239939/44562305-9791af00-a78b-11e8-904b-cf7f709299fa.gif)
 
